@@ -1,0 +1,72 @@
+import React from 'react';
+import { Platform } from 'react-native';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+
+import TabBarIcon from '../components/TabBarIcon';
+import HomeScreen from '../screens/HomeScreen';
+import LinksScreen from '../screens/LinksScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import AlertsScreen from '../screens/AlertsScreen';
+
+const HomeStack = createStackNavigator({
+  Home: HomeScreen,
+});
+
+HomeStack.navigationOptions = {
+  tabBarLabel: 'Home',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name="home"
+    />
+  ),
+};
+
+const AlertsStack = createStackNavigator({
+  Alerts: AlertsScreen,
+});
+
+AlertsStack.navigationOptions = {
+  tabBarLabel: 'Alerts',
+  tabBarIcon: ({ focused }) => ( 
+    <TabBarIcon 
+      focused={focused}
+      name="warning"
+    />
+  ),
+};
+
+const LinksStack = createStackNavigator({
+  Links: LinksScreen,
+});
+
+LinksStack.navigationOptions = {
+  tabBarLabel: 'Links',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name="search"
+    />
+  ),
+};
+
+const ProfileStack = createStackNavigator({
+  Profile: ProfileScreen,
+});
+
+ProfileStack.navigationOptions = {
+  tabBarLabel: 'My Account',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name="person"
+    />
+  ),
+};
+
+export default createBottomTabNavigator({
+  HomeStack,
+  AlertsStack,
+  LinksStack,
+  ProfileStack,
+});
