@@ -1,7 +1,9 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "run": "node ./server/index.js",
     "start": "expo start",
+    "dev": "npm run & npm start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
@@ -12,11 +14,22 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "expo": "^32.0.0",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10",
+    "passport": "^0.4.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
-    "react-navigation": "^3.0.9"
+    "react-navigation": "^3.0.9",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
