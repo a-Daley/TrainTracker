@@ -1,19 +1,13 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { WebBrowser } from 'expo';
-import { Button, Divider, Header } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { MonoText } from '../components/StyledText';
+import { connect } from 'react-redux';
+import {selectTrain, grabTrainTweets } from '../redux/store/train'
 
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor () {
     super (),
     this.state = {
@@ -25,32 +19,16 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  showTrain (train) {
+    this.props.selectTrain(train)
+    this.props.grabTrainTweets(train.train)
+    this.props.navigation.navigate('Train')
+  }
+
   render() {
     return (
       <View style={styles.container}>
-      {/* <View>
-          <Header
-
-            statusBarProps={{ barStyle: 'light-content' }}
-            barStyle="light-content" // or directly
-            leftComponent={{
-              text: 'FIRST STOP', style: {
-                //fontSize: 40,
-                fontWeight: 'bold',
-                fontFamily: "Copperplate-Bold",
-                // color: "white",
-                color: "white"
-              } }}
-            centerComponent={<Image
-              source={require('../assets/images/subway-big.png')}
-              style={styles.welcomeImage} />}
-            containerStyle={{
-              backgroundColor: "#6EC3C1",
-              justifyContent: 'space-around',
-            }}
-          />
-      </View> */}
-      
+ 
       <View style={styles.welcomeContainer}>
             <Image
               source={ require('../assets/images/subway-big.png')}
@@ -67,31 +45,12 @@ export default class HomeScreen extends React.Component {
                 title={elem.train} 
                 type="clear" 
                 titleStyle={styles.buttonText} 
-                onPress={() => this.props.navigation.navigate('Train')}
+                onPress={() => this.showTrain(elem)}
                 buttonStyle={styles.trainButton}>
              </Button>
             )
           })}
         </View>
-
-      {/* <View style={styles.getStartedContainer}>
-             {this._maybeRenderDevelopmentModeWarning()}
-
-             <Text style={styles.getStartedText}>Get started by opening</Text>
-
-             <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-             </View>
-
-           </View> */}
-
-         {/* <View style={styles.tabBarInfoContainer}>
-           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-           <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-             <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-           </View>
-          </View> */}
       </View>
     );
   }
@@ -130,12 +89,19 @@ export default class HomeScreen extends React.Component {
   };
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    grabTrainTweets: train => dispatch(grabTrainTweets(train)),
+    selectTrain: train => dispatch(selectTrain(train))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(HomeScreen)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexWrap: "wrap",
-    // backgroundColor: '#E5E8E0'
-    // backgroundColor: "#6EC3C1"
     backgroundColor: "white"
   },
 
@@ -147,7 +113,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
     flexWrap: "wrap",
-    // backgroundColor: "#E5E8E0"
     backgroundColor: "white"
   },
 
@@ -182,7 +147,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: "Copperplate-Bold",
     color: "#0D5F8A",
-    // color: "#6EC3C1"
   },
 
   welcomeContainer: {
@@ -191,10 +155,6 @@ const styles = StyleSheet.create({
       justifyContent: "flex-start",
       marginTop: 10,
       marginBottom: 0,
-      // backgroundColor: "#E0C21F"
-      // blue blow//
-      // backgroundColor: "#6EC3C1"
-      // backgroundColor: "#1D3A2E"
   },
     
   welcomeImage: {

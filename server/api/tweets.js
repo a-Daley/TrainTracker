@@ -34,7 +34,7 @@ router.get("/", (req, res, next) => {
 
   client.get("search/tweets", queries, function (error, tweets, response) {
     if (error) throw error;
-    res.send(tweets)
+    res.send(tweets.statuses)
   })
 })
 

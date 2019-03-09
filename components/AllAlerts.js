@@ -3,6 +3,7 @@ import { ScrollView, FlatList, Button, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { grabTweets } from '../redux/store/tweets'
 import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
+import moment from 'moment'
 
 class AllAlerts extends Component {
 
@@ -14,21 +15,21 @@ class AllAlerts extends Component {
     keyExtractor = (item, index) => index
 
     render () {
-        console.log('tweets.length', this.props.tweets.length)
         return (
             <View>
                 <Header
-                    // statusBarProps={{ backgroundColor: '#E0C21F'}}
                     leftComponent={{ icon: 'home', color: '#fff' }}
-                    // centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
                     rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}
                 />
                 <FlatList 
-                    keyExtractor={this.keyExtractor}
                     data={this.props.tweets} 
                     // keyExtractor={item.index}
-                    renderItem={({item}) => <Card><Text key={item.id}>{item.text}</Text></Card>}
+                    renderItem={({item}) => 
+                    <Card>
+                        <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text key={item.id}>{item.text}</Text>
+                    </Card>}
                     
                 />
             </View>
@@ -40,7 +41,6 @@ class AllAlerts extends Component {
 const mapStateToProps = (state) => {
     return {
         tweets: state.tweets,
-        train: state.train
     } 
 }
 

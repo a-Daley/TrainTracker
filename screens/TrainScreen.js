@@ -2,20 +2,14 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import SingleTrain from '../components/SingleTrain';
 
-export default class LinksScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Links',
-  };
+const TrainScreen = () => {
 
-  render() {
     return (
       <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <SingleTrain />
+        <SingleTrain/>
       </ScrollView>
     );
-  }
+
 }
 
 const styles = StyleSheet.create({
@@ -25,3 +19,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+export default TrainScreen
