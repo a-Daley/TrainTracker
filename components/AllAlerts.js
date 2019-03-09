@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, FlatList, Button, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { grabTweets } from '../redux/store/tweets'
-import { ListItem, Card } from 'react-native-elements'
+import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
 
 class AllAlerts extends Component {
 
@@ -11,11 +11,25 @@ class AllAlerts extends Component {
         this.props.grabTweets()
     }
 
+    keyExtractor = (item, index) => index
+
     render () {
         console.log('tweets.length', this.props.tweets.length)
         return (
             <View>
-                <FlatList data={this.props.tweets} renderItem={({item}) => <Card><Text>{item.text}</Text></Card>}
+                <Header
+                    // statusBarProps={{ backgroundColor: '#E0C21F'}}
+                    leftComponent={{ icon: 'home', color: '#fff' }}
+                    // centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+                    rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
+                    containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}
+                />
+                <FlatList 
+                    keyExtractor={this.keyExtractor}
+                    data={this.props.tweets} 
+                    // keyExtractor={item.index}
+                    renderItem={({item}) => <Card><Text key={item.id}>{item.text}</Text></Card>}
+                    
                 />
             </View>
         )
@@ -24,8 +38,6 @@ class AllAlerts extends Component {
 }
     
 const mapStateToProps = (state) => {
-    console.log('state.tweets', state.tweets)
-    console.log('state.train', state.train)
     return {
         tweets: state.tweets,
         train: state.train

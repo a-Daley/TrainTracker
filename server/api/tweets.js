@@ -11,28 +11,28 @@ const client = new Twitter({
   access_token_secret: accessSecret
 });
  
-var params = { 
+const params = { 
   screen_name: 'NYCTSubway',
   exclude_replies: true,
   count: 100,
 
 };
 
-router.get("/", (req, res, next) => {
-    // res.send("Still working!")
-
+router.get("/all", (req, res, next) => {
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (error) throw error;
-        //console.log('TWEETS: ', tweets);
         res.send(tweets)
     })
 })
 
 router.get("/", (req, res, next) => {
-  // res.send("Still working!")
+  const queries = {
+    from: 'NYCTSubway',
+    q: req.query.q,
+    result_type: 'recent'
+  }
 
-
-  client.get('statuses/user_timeline', params, function (error, tweets, response) {
+  client.get("search/tweets", queries, function (error, tweets, response) {
     if (error) throw error;
     res.send(tweets)
   })

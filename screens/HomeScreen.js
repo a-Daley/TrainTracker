@@ -62,7 +62,13 @@ export default class HomeScreen extends React.Component {
         <View style={styles.trainsContainer}>
           {this.state.trainLines.map((elem, index) => {
             return (
-              <Button key={index} title={elem.train} type="clear" titleStyle={styles.buttonText} buttonStyle={styles.trainButton}>
+              <Button 
+                key={index} 
+                title={elem.train} 
+                type="clear" 
+                titleStyle={styles.buttonText} 
+                onPress={() => this.props.navigation.navigate('Train')}
+                buttonStyle={styles.trainButton}>
              </Button>
             )
           })}
@@ -77,9 +83,6 @@ export default class HomeScreen extends React.Component {
                <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
              </View>
 
-             <Text style={styles.getStartedText}>
-               Change this text and your app will automatically reload.
-             </Text>
            </View> */}
 
          {/* <View style={styles.tabBarInfoContainer}>
@@ -153,7 +156,6 @@ const styles = StyleSheet.create({
     height: 65,
     borderRadius: 65/2,
     backgroundColor: "#1D3A2E",
-    // backgroundColor: "#E0C21F",
     flexWrap: "wrap",
   },
 

@@ -11,28 +11,14 @@ const defaultState = []
 export const gotData = tweets => ({type: GOT_DATA, tweets})
 
 //THUNK CREATORS
-export const grabTweets = (pageNo, pageSize) => {
+export const grabTweets = () => {
     return async (dispatch) => {
-        if (pageNo && pageSize) {
-            try {
-                const response = await axios.get(`${serverUrl}/api/tweets/?pageNo=${pageNo}&pageSize=${pageSize}`)
-                const action = gotData(response.data)
-                // console.log('response.data', response.data)
-                console.log('length of data: ', response.data.length)
-                dispatch(action)
-            } catch (err) {
-                console.error(err)
-            }
-        } else {
-            try {
-                const response = await axios.get(`${serverUrl}/api/tweets`)
-                const action = gotData(response.data)
-                // console.log('response.data', response.data)
-                console.log('length of data: ', response.data.length)
-                dispatch(action)
-            } catch (err) {
-                console.error(err)
-            }
+        try {
+            const response = await axios.get(`${serverUrl}/api/tweets/all`)
+            const action = gotData(response.data)
+            dispatch(action)
+        } catch (err) {
+            console.error(err)
         }
     }
 }
@@ -41,7 +27,6 @@ export const grabTweets = (pageNo, pageSize) => {
 export default function (state = defaultState, action) {
     switch (action.type) {
         case GOT_DATA:
-            console.log("state", [...state, ...action.tweets])
             return [...state, ...action.tweets]
         default:
             return state

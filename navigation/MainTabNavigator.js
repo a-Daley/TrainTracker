@@ -7,9 +7,11 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AlertsScreen from '../screens/AlertsScreen';
+import TrainScreen from '../screens/TrainScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Train: {screen: TrainScreen}
 });
 
 HomeStack.navigationOptions = {
@@ -41,7 +43,7 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+  tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
