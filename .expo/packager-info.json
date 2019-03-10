@@ -1,8 +1,8 @@
 {
   "expoServerPort": null,
-  "expoServerNgrokUrl": "https://ix-ini.adaley.traintracker.exp.direct",
-  "packagerNgrokUrl": "https://packager.ix-ini.adaley.traintracker.exp.direct",
-  "ngrokPid": 30089,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
   "packagerPort": null,
   "packagerPid": null

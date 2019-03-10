@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { Picker, Button, Text, View, DatePickerIOS, StyleSheet } from 'react-native';
 import { connect } from 'react-redux'
-import { Input, Header, ListItem, Card, List, Icon, FormInput, FormValidationMessage, Divider } from 'react-native-elements'
-import moment from 'moment'
+import { Input, Card, Icon } from 'react-native-elements'
 import { Dropdown } from 'react-native-material-dropdown'
+import { grabTrainTweets } from '../redux/store/train'
+import Axios from 'axios';
+import moment from 'moment'
+import { serverURL } from '../secrets'
 
-export default class TextForm extends Component {
+class TextForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             chosenDate: new Date(),
             name: '',
             number: '',
-            train: ''
+            train: '',
+            tweets: []
         }
 
         this.setDate = this.setDate.bind(this);
@@ -29,12 +33,21 @@ export default class TextForm extends Component {
         })
     }
     
-    onPress = () => {
-    // call getValue() to get the values of the form
-        const value = this.refs.form.getValue();
-        if (value) { // if validation fails, value will be null
-            console.log(value)
-        }
+    handleSubmit = async () => {
+        const {name, number, train} = this.state
+        await this.props.grabTrainTweets(train)
+        .then(async data => {
+           const tweet = this.props.trainData[0].text 
+           const time = moment(this.props.trainData[0].created_at).startOf('day').fromNow() 
+           const message = `Hi ${name}, the last tweet about the ${train} train was about ${time}. Here's what it said: "${tweet}"`
+           console.log(message)
+           const response = await Axios.post("http://localhost:8080/auth/texts", 
+           {number: `+1${number}`, message: message})
+        })
+        .then(data => {
+            console.log(response.data)
+        })
+        
     }
 
     render () {
@@ -81,23 +94,9 @@ export default class TextForm extends Component {
                         backgroundColor = '#0D5F8A'
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                         title='SUBMIT' 
-                        onPress={() => {console.log('this.state', this.state)}} 
+                        onPress={this.handleSubmit} 
                         />
                 </Card>
-                {/* <Picker
-                        selectedValue={this.state.train}
-                        style={{height: 50, width: 100}}
-                        onValueChange={(itemValue, itemIndex) => this.setState({train: itemValue})}>
-                        {trainLines.map(train=> {
-                            return <Picker.Item label={train} value={train} />
-                        })}
-                    </Picker> */}
-                {/* <View style={styles.container}>
-//                     <DatePickerIOS
-//                         date={this.state.chosenDate}
-//                         onDateChange={this.setDate}/>
-//                 </View>  */}
-            
         </View>
         )
     }
@@ -113,5 +112,19 @@ const styles = StyleSheet.create({
         color: 'green', 
         marginBottom: 10
     }
-});
+})
 
+const mapStateToProps = state => {
+    return {
+        trainData: state.train.data,
+        selectedTrain: state.train.selectedTrain
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        grabTrainTweets: train => dispatch(grabTrainTweets(train)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextForm)
