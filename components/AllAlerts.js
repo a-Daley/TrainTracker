@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, Button, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, FlatList, Button, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { grabTweets } from '../redux/store/tweets'
 import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
@@ -32,6 +32,7 @@ class AllAlerts extends Component {
                     </Card>}
                     keyExtractor={item => item.id_str}
                 />
+                <ActivityIndicator size="large" color="#0D5F8A" />
             </View>
         )
     }

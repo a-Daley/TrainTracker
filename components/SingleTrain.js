@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, Button, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, FlatList, Button, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
 import moment from 'moment'
+import { grabTrainTweets } from '../redux/store/train'
 
 
 
@@ -23,13 +24,20 @@ class SingleTrain extends Component {
         }
     }
 
+    refreshPage = (train) => {
+        this.props.grabTrainTweets(train)
+        this.setState({
+            needsUpdate: true
+        })
+    }
+
     render () {
         return (
             <View>
                 <Header
                     // leftComponent={{ icon: 'home', color: '#fff' }}
                     centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: "bold", fontFamily: "Copperplate-Bold"}}>{this.props.selectedTrain.train} Train</Text>}
-                    rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
+                    rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.refreshPage(this.props.selectedTrain.train)} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}>
                 </Header>
                 <FlatList 
@@ -41,6 +49,7 @@ class SingleTrain extends Component {
                     </Card>}
                     keyExtractor={item => item.id_str}
                     />
+                    <ActivityIndicator size="large" color="#0D5F8A" />
             </View>
 
         )
