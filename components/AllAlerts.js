@@ -25,13 +25,12 @@ class AllAlerts extends Component {
                 />
                 <FlatList 
                     data={this.props.tweets} 
-                    // keyExtractor={item.index}
                     renderItem={({item}) => 
                     <Card>
                         <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
                         <Text key={item.id}>{item.text}</Text>
                     </Card>}
-                    
+                    keyExtractor={item => item.id_str}
                 />
             </View>
         )

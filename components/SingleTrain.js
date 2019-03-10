@@ -28,7 +28,7 @@ class SingleTrain extends Component {
             <View>
                 <Header
                     // leftComponent={{ icon: 'home', color: '#fff' }}
-                    centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: "bold"}}>{this.props.selectedTrain.train} Train</Text>}
+                    centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: "bold", fontFamily: "Copperplate-Bold"}}>{this.props.selectedTrain.train} Train</Text>}
                     rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}>
                 </Header>
@@ -39,6 +39,7 @@ class SingleTrain extends Component {
                         <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
                         <Text>{item.text}</Text>
                     </Card>}
+                    keyExtractor={item => item.id_str}
                     />
             </View>
 
