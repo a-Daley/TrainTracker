@@ -27,8 +27,8 @@ class SingleTrain extends Component {
         return (
             <View>
                 <Header
-                    leftComponent={{ icon: 'home', color: '#fff' }}
-                    centerComponent={<Text>{this.props.selectedTrain.train}</Text>}
+                    // leftComponent={{ icon: 'home', color: '#fff' }}
+                    centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: "bold"}}>{this.props.selectedTrain.train} Train</Text>}
                     rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}>
                 </Header>

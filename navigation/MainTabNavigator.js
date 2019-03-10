@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import TextsScreen from '../screens/TextsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AlertsScreen from '../screens/AlertsScreen';
 import TrainScreen from '../screens/TrainScreen';
@@ -38,16 +38,16 @@ AlertsStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const TextsStack = createStackNavigator({
+  Texts: TextsScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Search',
+TextsStack.navigationOptions = {
+  tabBarLabel: 'Texts',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name="search"
+      name="textsms"
     />
   ),
 };
@@ -69,6 +69,6 @@ ProfileStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   AlertsStack,
-  LinksStack,
+  TextsStack,
   ProfileStack,
 });

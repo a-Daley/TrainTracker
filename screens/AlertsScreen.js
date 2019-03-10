@@ -3,9 +3,6 @@ import { ScrollView, StyleSheet } from 'react-native';
 import AllAlerts from '../components/AllAlerts';
 
 export default class AlertsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Alerts',
-  };
 
   render() {
     return (
