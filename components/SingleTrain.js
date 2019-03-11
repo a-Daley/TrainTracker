@@ -45,7 +45,9 @@ class SingleTrain extends Component {
                     renderItem={({item}) => 
                     <Card key={item.id_str}>
                         <Text style={{fontWeight: "bold"}}>{moment(item.created_at).startOf('day').fromNow()}</Text>
-                        <Text>{item.text}</Text>
+                        <Text>{item.full_text}</Text>
+                        {/* <Text style={{color: 'gray'}} onPress={() => LinkingIOS.openURL(item.full_text.slice(0, item.full_text.length - 23))}>{item.full_text.slice(item.text.length - 23)}</Text> */}
+
                     </Card>}
                     keyExtractor={item => item.id_str}
                     />

@@ -15,6 +15,7 @@ const params = {
   screen_name: 'NYCTSubway',
   exclude_replies: true,
   count: 100,
+  tweet_mode: 'extended'
 
 };
 
@@ -29,7 +30,8 @@ router.get("/", (req, res, next) => {
   const queries = {
     from: 'NYCTSubway',
     q: req.query.q,
-    result_type: 'recent'
+    result_type: 'recent',
+    tweet_mode: 'extended'
   }
 
   client.get("search/tweets", queries, function (error, tweets, response) {

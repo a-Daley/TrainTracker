@@ -17,15 +17,33 @@ class TextForm extends Component {
             number: '',
             train: '',
             tweets: [],
-            isVisible: false
+            isVisible: false,
+            hasError: false,
+            errorMessage: ""
         }
 
-        this.setDate = this.setDate.bind(this);
+        this.setDate = this.setDate.bind(this)
+        this.checkInputs = this.checkInputs.bind(this)
     }
 
     clearFields () {
         this.nameInput.clear()
         this.numberInput.clear()
+    }
+
+    checkInputs () {
+        if (this.state.number.length < 10) {
+            this.setState({hasError: true, })
+        } else 
+        if (this.state.name === '') {
+            this.setState({hasError: true, })
+        } else if (this.state.train === '') {
+            this.setState({hasError: true})
+        } else {
+        this.clearFields()
+        this.setState({isVisible: true})
+        this.handleSubmit()
+        }
     }
 
     setDate(newDate) {
@@ -41,12 +59,10 @@ class TextForm extends Component {
     
     handleSubmit = async () => {
         const {name, number, train} = this.state
-        this.clearFields()
-        this.setState({isVisible: true})
 
         await this.props.grabTrainTweets(train)
         .then(async data => {
-           const tweet = this.props.trainData[0].text 
+           const tweet = this.props.trainData[0].full_text 
            const time = moment(this.props.trainData[0].created_at).startOf('day').fromNow() 
            const message = `Hi ${name}, the last tweet about the ${train} train was about ${time}. Here's what it said: "${tweet}"`
            console.log(message)
@@ -76,6 +92,7 @@ class TextForm extends Component {
                     <Text h1 style={styles.labelText}>Name</Text> 
                     <Input
                         placeholder='e.g. Jane Smith' 
+                        errorMessage='Name is required.'
                         onChangeText={(text) => this.setState({name: text})}
                         value={this.state.name}
                         autoCapitalize='words'
@@ -85,7 +102,7 @@ class TextForm extends Component {
                     <Text h1 style={styles.labelText}>Number</Text> 
                     <Input
                         placeholder='000-000-0000'
-                        // leftIcon={<Icon name='phone' size={24} color='gray'/>}
+                        errorMessage='Phone numbers must be 11 digits long.'
                         onChangeText={(text) => this.setState({number: text})}
                         value={this.state.number}
                         shake={true}
@@ -100,25 +117,35 @@ class TextForm extends Component {
                         data={trainLines}
                         onChangeText={(value) => this.setState({train: value})}
                         ref={input => { this.trainInput = input }}
+                        error="Train line is required"
                     />
                     <Button
                         icon={<Icon name='code' color='#ffffff' />}
                         backgroundColor = '#0D5F8A'
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                         title='SUBMIT' 
-                        onPress={this.handleSubmit} 
+                        onPress={this.checkInputs} 
                         />
                 </Card>
 
              <Overlay 
                 isVisible={this.state.isVisible} 
                 overlayBackgroundColor="#ACC6C7"
-                width={135}
-                height={75}
+                windowBackgroundColor="gray"
+                width={155}
+                height={95}
                 onBackdropPress={() => this.setState({ isVisible: false })}>
-                <Text style={styles.overlayText}>Message Sent!</Text>
-                <Icon type="ionicon" name="heartbeat" />
+                <Text style={styles.overlayText}>We're on it! Message Sent.</Text>
              </Overlay> 
+
+             <Overlay 
+                isVisible={this.state.hasError} 
+                overlayBackgroundColor="red"
+                width="auto"
+                height="auto"
+                onBackdropPress={() => this.setState({ hasError: false })}>
+                <Text style={{color:"white", fontWeight: "bold"}}>Oops! Looks like you're missing information. Check your answers before submitting again.</Text>
+             </Overlay>
         </View>
         )
     }

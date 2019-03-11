@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, ScrollView, FlatList, Button, Text, View } from 'react-native';
+import { ActivityIndicator, LinkingIOS, FlatList, Button, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { grabTweets } from '../redux/store/tweets'
 import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
@@ -24,7 +24,8 @@ class AllAlerts extends Component {
                     renderItem={({item}) => 
                     <Card>
                         <Text style={{fontWeight: "bold"}}>{moment(item.created_at).startOf('day').fromNow()}</Text>
-                        <Text key={item.id}>{item.text}</Text>
+                        <Text key={item.id}>{item.full_text.slice(0, item.full_text.length - 23)}</Text>
+                        {/* <Text style={{color: 'gray'}} onPress={() => LinkingIOS.openURL(item.full_text.slice(0, item.full_text.length - 23))}>{item.full_text.slice(item.text.length - 23)}</Text> */}
                     </Card>}
                     keyExtractor={item => item.id_str}
                 />
