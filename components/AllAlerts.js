@@ -5,14 +5,10 @@ import { grabTweets } from '../redux/store/tweets'
 import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
 import moment from 'moment'
 
-class AllAlerts extends Component {
-
-    
+class AllAlerts extends Component {  
     componentDidMount = async () => {
         this.props.grabTweets()
     }
-
-    keyExtractor = (item, index) => index
 
     render () {
         return (
@@ -22,18 +18,20 @@ class AllAlerts extends Component {
                     centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: 'bold'}}>Recent Alerts</Text>}
                     rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.props.grabTweets()} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}
-                />
+                /> 
                 <FlatList 
                     data={this.props.tweets} 
                     renderItem={({item}) => 
                     <Card>
-                        <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text style={{fontWeight: "bold"}}>{moment(item.created_at).startOf('day').fromNow()}</Text>
                         <Text key={item.id}>{item.text}</Text>
                     </Card>}
                     keyExtractor={item => item.id_str}
                 />
-                <ActivityIndicator size="large" color="#0D5F8A" />
+                {/* <ActivityIndicator size="large" color="#0D5F8A" /> */}
             </View>
+               
+            
         )
     }
 

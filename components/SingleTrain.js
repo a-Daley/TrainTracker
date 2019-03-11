@@ -44,12 +44,11 @@ class SingleTrain extends Component {
                     data={this.props.trainData} 
                     renderItem={({item}) => 
                     <Card key={item.id_str}>
-                        <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text style={{fontWeight: "bold"}}>{moment(item.created_at).startOf('day').fromNow()}</Text>
                         <Text>{item.text}</Text>
                     </Card>}
                     keyExtractor={item => item.id_str}
                     />
-                    <ActivityIndicator size="large" color="#0D5F8A" />
             </View>
 
         )

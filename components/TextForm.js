@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Picker, Button, Text, View, DatePickerIOS, StyleSheet } from 'react-native';
+import { Picker, Button, Text, View, DatePickerIOS, StyleSheet,  } from 'react-native';
 import { connect } from 'react-redux'
-import { Input, Card, Icon } from 'react-native-elements'
+import { Input, Card, Overlay, Icon } from 'react-native-elements'
 import { Dropdown } from 'react-native-material-dropdown'
 import { grabTrainTweets } from '../redux/store/train'
 import Axios from 'axios';
 import moment from 'moment'
-import { serverURL } from '../secrets'
+
 
 class TextForm extends Component {
     constructor(props) {
@@ -16,10 +16,16 @@ class TextForm extends Component {
             name: '',
             number: '',
             train: '',
-            tweets: []
+            tweets: [],
+            isVisible: false
         }
 
         this.setDate = this.setDate.bind(this);
+    }
+
+    clearFields () {
+        this.nameInput.clear()
+        this.numberInput.clear()
     }
 
     setDate(newDate) {
@@ -35,6 +41,9 @@ class TextForm extends Component {
     
     handleSubmit = async () => {
         const {name, number, train} = this.state
+        this.clearFields()
+        this.setState({isVisible: true})
+
         await this.props.grabTrainTweets(train)
         .then(async data => {
            const tweet = this.props.trainData[0].text 
@@ -65,29 +74,32 @@ class TextForm extends Component {
                 
                 <Card>
                     <Text h1 style={styles.labelText}>Name</Text> 
-                    {/* <Divider></Divider> */}
                     <Input
                         placeholder='e.g. Jane Smith' 
                         onChangeText={(text) => this.setState({name: text})}
                         value={this.state.name}
                         autoCapitalize='words'
                         clearButtonMode = 'always'
+                        ref={input => { this.nameInput = input }}
                     />
                     <Text h1 style={styles.labelText}>Number</Text> 
                     <Input
                         placeholder='000-000-0000'
-                        leftIcon={<Icon name='phone' size={24} color='gray'/>}
+                        // leftIcon={<Icon name='phone' size={24} color='gray'/>}
                         onChangeText={(text) => this.setState({number: text})}
                         value={this.state.number}
                         shake={true}
                         clearButtonMode='always'
                         keyboardType='numeric'
                         textContentType='telephoneNumber'
+                        ref={input => { this.numberInput = input }}
                     />
+                     <Text h1 style={styles.labelText}>Train Line</Text> 
                     <Dropdown 
                         label="train"
                         data={trainLines}
                         onChangeText={(value) => this.setState({train: value})}
+                        ref={input => { this.trainInput = input }}
                     />
                     <Button
                         icon={<Icon name='code' color='#ffffff' />}
@@ -97,6 +109,16 @@ class TextForm extends Component {
                         onPress={this.handleSubmit} 
                         />
                 </Card>
+
+             <Overlay 
+                isVisible={this.state.isVisible} 
+                overlayBackgroundColor="#ACC6C7"
+                width={135}
+                height={75}
+                onBackdropPress={() => this.setState({ isVisible: false })}>
+                <Text style={styles.overlayText}>Message Sent!</Text>
+                <Icon type="ionicon" name="heartbeat" />
+             </Overlay> 
         </View>
         )
     }
@@ -109,8 +131,17 @@ const styles = StyleSheet.create({
     },
 
     labelText: {
-        color: 'green', 
+        color: "white",
         marginBottom: 10
+    },
+
+    overlayText: {
+        flex: 1,
+        justifyContent: "center",
+        alignContent: "center",
+        color: "#1D3A2E",
+        marginBottom: 10,
+        fontWeight: "bold"
     }
 })
 
