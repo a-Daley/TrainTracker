@@ -9,17 +9,11 @@ router.post('/', (req, res, next) => {
    client.messages.create({
         from: twilioNum,
         to: req.body.number,
-        body: req.body.message
+        body: req.body.message,
         }).then((message) => {
             console.log(message.sid)
             res.send(message.id)
         }) 
-
-// res.send ({
-//     from: twilioNum,
-//         to: req.body.num,
-//         body: req.body.message,
-// })
 })  
 
 

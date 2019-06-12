@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Picker, Button, Text, View, DatePickerIOS, StyleSheet,  } from 'react-native';
+import { Button, Text, View, StyleSheet,  } from 'react-native';
 import { connect } from 'react-redux'
 import { Input, Card, Overlay, Icon } from 'react-native-elements'
 import { Dropdown } from 'react-native-material-dropdown'
@@ -46,6 +46,14 @@ class TextForm extends Component {
         }
     }
 
+    changeTime = (date) => {
+        if (moment.duration(moment().diff(date))._data.hours < 1) {
+            return (`${moment.duration(moment().diff(date))._data.minutes} minutes ago`)
+        } else {
+        return (`${moment.duration(moment().diff(date))._data.hours} hours and ${moment.duration(moment().diff(date))._data.minutes} minutes ago`)
+        }
+    }
+
     setDate(newDate) {
     this.setState({chosenDate: newDate});
     }
@@ -63,14 +71,14 @@ class TextForm extends Component {
         await this.props.grabTrainTweets(train)
         .then(async data => {
            const tweet = this.props.trainData[0].full_text 
-           const time = moment(this.props.trainData[0].created_at).startOf('day').fromNow() 
+           const time = this.changeTime(this.props.trainData[0].created_at)
            const message = `Hi ${name}, the last tweet about the ${train} train was about ${time}. Here's what it said: "${tweet}"`
            console.log(message)
-           const response = await Axios.post("http://localhost:8080/auth/texts", 
+            await Axios.post("http://localhost:8080/auth/texts", 
            {number: `+1${number}`, message: message})
         })
         .then(data => {
-            console.log(response.data)
+
         })
         
     }
@@ -91,6 +99,7 @@ class TextForm extends Component {
                 <Card>
                     <Text h1 style={styles.labelText}>Name</Text> 
                     <Input
+                        testID="nameValue"
                         placeholder='e.g. Jane Smith' 
                         errorMessage='Name is required.'
                         onChangeText={(text) => this.setState({name: text})}
@@ -101,6 +110,7 @@ class TextForm extends Component {
                     />
                     <Text h1 style={styles.labelText}>Number</Text> 
                     <Input
+                        testID="numberValue"
                         placeholder='000-000-0000'
                         errorMessage='Phone numbers must be 11 digits long.'
                         onChangeText={(text) => this.setState({number: text})}
@@ -113,6 +123,7 @@ class TextForm extends Component {
                     />
                      <Text h1 style={styles.labelText}>Train Line</Text> 
                     <Dropdown 
+                        testID = "trainValue"
                         label="train"
                         data={trainLines}
                         onChangeText={(value) => this.setState({train: value})}
@@ -120,6 +131,7 @@ class TextForm extends Component {
                         error="Train line is required"
                     />
                     <Button
+                        testID="submitButton"
                         icon={<Icon name='code' color='#ffffff' />}
                         backgroundColor = '#0D5F8A'
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
@@ -135,7 +147,7 @@ class TextForm extends Component {
                 width={155}
                 height={95}
                 onBackdropPress={() => this.setState({ isVisible: false })}>
-                <Text style={styles.overlayText}>We're on it! Message Sent.</Text>
+                <Text testID="sentMessage" style={styles.overlayText}>We're on it! Message Sent.</Text>
              </Overlay> 
 
              <Overlay 

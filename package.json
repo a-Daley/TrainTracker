@@ -12,6 +12,18 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/TrainTracker.app",
+        "build": "xcodebuild -project ios/TrainTracker.xcodeproj -scheme TrainTracker -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone XS",
+        "test-runner": "jest"
+      }
+    },
+    "test-runner": "jest"
+  },
   "dependencies": {
     "@expo/samples": "2.1.1",
     "axios": "^0.18.0",
@@ -37,6 +49,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
+    "detox": "^11.0.0",
     "jest-expo": "^32.0.0"
   },
   "private": true

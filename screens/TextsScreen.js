@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import TextForm from '../components/TextForm'
-import { Icon, Header } from 'react-native-elements'
+import { Header } from 'react-native-elements'
 
 export default class TextsScreen extends React.Component {
 
@@ -9,7 +9,7 @@ export default class TextsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={<Text style={{color: '#fff', fontSize: 24}}>Notifications</Text>}
+          centerComponent={<Text style={styles.centerComponent}>Notifications</Text>}
 
           containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}
         />
@@ -25,4 +25,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
+
+  centerComponent: {
+    color: '#fff', 
+    fontSize: 24, 
+    fontFamily: "Copperplate-Bold", 
+    fontWeight: "bold"
+  }
 });

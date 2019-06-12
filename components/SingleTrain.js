@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, ScrollView, FlatList, Button, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux'
-import { Header, ListItem, Card, List, Icon } from 'react-native-elements'
+import { Header, Card, Icon } from 'react-native-elements'
 import moment from 'moment'
 import { grabTrainTweets } from '../redux/store/train'
-
-
 
 class SingleTrain extends Component {
     constructor () {
@@ -31,11 +29,18 @@ class SingleTrain extends Component {
         })
     }
 
+    changeTime = (date) => {
+        if (moment.duration(moment().diff(date))._data.hours < 1) {
+            return (`${moment.duration(moment().diff(date))._data.minutes} minutes ago`)
+        } else {
+        return (`${moment.duration(moment().diff(date))._data.hours} hours and ${moment.duration(moment().diff(date))._data.minutes} minutes ago`)
+        }
+    }
+
     render () {
         return (
             <View>
                 <Header
-                    // leftComponent={{ icon: 'home', color: '#fff' }}
                     centerComponent={<Text style={{color: '#fff', fontSize: 24, fontWeight: "bold", fontFamily: "Copperplate-Bold"}}>{this.props.selectedTrain.train} Train</Text>}
                     rightComponent={<Icon name='refresh' color='#fff' onPress={() => this.refreshPage(this.props.selectedTrain.train)} />}
                     containerStyle={{ backgroundColor: "#1D3A2E", justifyContent: 'space-around'}}>
@@ -44,9 +49,8 @@ class SingleTrain extends Component {
                     data={this.props.trainData} 
                     renderItem={({item}) => 
                     <Card key={item.id_str}>
-                        <Text style={{fontWeight: "bold"}}>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text style={{fontWeight: "bold"}}>{this.changeTime(item.created_at)}</Text>
                         <Text>{item.full_text}</Text>
-                        {/* <Text style={{color: 'gray'}} onPress={() => LinkingIOS.openURL(item.full_text.slice(0, item.full_text.length - 23))}>{item.full_text.slice(item.text.length - 23)}</Text> */}
 
                     </Card>}
                     keyExtractor={item => item.id_str}
