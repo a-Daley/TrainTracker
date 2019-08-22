@@ -1,7 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "run": "node ./server/index.js",
+    "local": "node ./server/index.js",
     "start": "expo start",
     "dev": "npm run & npm start",
     "android": "expo start --android",

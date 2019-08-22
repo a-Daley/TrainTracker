@@ -21,7 +21,7 @@ export const selectTrain = (train) => ({
 export const grabTrainTweets = (train) => {
     return async (dispatch) => {  
         try {
-            const response = await axios.get(`${serverUrl}/api/tweets/?q="+${train}+trains`)
+            const response = await axios(`${serverUrl}/api/tweets/?q="+${train}+trains`)
             const action = gotTrainData(response.data)
             dispatch(action)
         } catch (err) {

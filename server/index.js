@@ -2,8 +2,6 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
-const passport = require('passport')
-const secrets = require('../secrets')
 
 const PORT = process.env.PORT || 8080
 const app = express()
@@ -41,9 +39,6 @@ const createApp = () => {
 
     // api routes
     app.use('/api', require('./api'))
-
-    // api routes
-    app.use('/auth', require('./auth'))
 
     // any remaining requests with an extension (.js, .css, etc.) send 404
     app.use((req, res, next) => {
