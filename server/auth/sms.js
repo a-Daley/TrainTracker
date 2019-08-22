@@ -11,7 +11,6 @@ router.post('/', (req, res, next) => {
         to: req.body.number,
         body: req.body.message,
         }).then((message) => {
-            console.log(message.sid)
             res.send(message.id)
         }) 
 })  

@@ -73,7 +73,6 @@ class TextForm extends Component {
            const tweet = this.props.trainData[0].full_text 
            const time = this.changeTime(this.props.trainData[0].created_at)
            const message = `Hi ${name}, the last tweet about the ${train} train was about ${time}. Here's what it said: "${tweet}"`
-           console.log(message)
             await Axios.post("http://localhost:8080/auth/texts", 
            {number: `+1${number}`, message: message})
         })
